@@ -20,7 +20,7 @@ fetch('data.json')
   .then(data => {
     TIME_LIMIT = data.TIME_LIMIT;
     quotes_array = data.quotes_array;
-    initializeGame(); // Start the game after loading data
+    // initializeGame(); // Start the game after loading data
   })
   .catch(error => {
     console.error('Error fetching data:', error);
