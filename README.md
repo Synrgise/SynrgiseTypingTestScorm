@@ -4,40 +4,44 @@ This SCORM package provides a typing test game where students can practice typin
 
 ## Instructions
 
-1. **Update `data.json` File:**
-   - Locate the `data.json` file within the package.
+1. **Download the SCORM Package:**
+   - Download the SCORM package as a zip file from [this link](https://github.com/Synrgise/SynrgiseTypingTestScorm/archive/refs/heads/main.zip).
+   - Once downloaded, unzip the contents of the zip file.
+
+2. **Update `data.json` File:**
+   - Locate the `data.json` file within the unzipped package.
    - Open the `data.json` file using a text editor.
    - Update the following parameters:
      - **Time Limit:** Set the time limit for the game in seconds.
      - **Quotes/Text-Strings:** Provide an array of quotes or text-strings that the student will be presented with during the game. Each quote should be limited to no more than 500 characters.
    - Save the changes to the `data.json` file.
 
-2. **Update `imsmanifest.xml` File:**
+3. **Update `imsmanifest.xml` File:**
    - Locate the `imsmanifest.xml` file within the package.
    - Open the `imsmanifest.xml` file using a text editor.
    - Find the `<title>{Typing Game - Name}</title>` tags.
    - Replace `{Typing Game - Name}` with the desired name for your SCORM package.
    - Save the changes to the `imsmanifest.xml` file.
 
-3. **Local Testing:**
+4. **Local Testing:**
    - To test the SCORM package locally, you can run the `index.html` file in your web browser.
    - Alternatively, you can use Python to run a local web server:
      - **For Windows:**
        - Download and install Python from [python.org](https://www.python.org/downloads/).
-       - Open Command Prompt and navigate to the folder containing the SCORM package.
+       - Open Command Prompt and navigate to the folder containing the unzipped SCORM package.
        - Run the command: `python -m http.server`.
      - **For Mac:**
        - Mac systems typically come with Python pre-installed.
-       - Open Terminal and navigate to the folder containing the SCORM package.
+       - Open Terminal and navigate to the folder containing the unzipped SCORM package.
        - Run the command: `python3 -m http.server`.
    - Once the server is running, open your web browser and navigate to `http://localhost:8000` to access the `index.html` file.
 
-4. **Zip the Contents:**
+5. **Zip the Contents:**
    - Select all the files and folders within the package directory (excluding the directory itself).
    - Right-click on the selection and choose the option to compress or zip the files.
    - Ensure that the zip file contains the updated `data.json` and `imsmanifest.xml` files along with other necessary files.
 
-5. **Upload to SCORM-Compatible LMS:**
+6. **Upload to SCORM-Compatible LMS:**
    - Once the contents are zipped, you can upload the zip file to any SCORM 1.2 compatible Learning Management System (LMS).
    - Follow the instructions provided by your LMS to upload and deploy the SCORM package.
 
