@@ -29,7 +29,7 @@ This SCORM package provides a typing test game where students can practice typin
      - **For Mac:**
        - Mac systems typically come with Python pre-installed.
        - Open Terminal and navigate to the folder containing the SCORM package.
-       - To install SimpleHTTPServer if necessary, run the command: `sudo python -m SimpleHTTPServer 8000`.
+       - Run the command: `python3 -m http.server`.
    - Once the server is running, open your web browser and navigate to `http://localhost:8000` to access the `index.html` file.
 
 4. **Zip the Contents:**
