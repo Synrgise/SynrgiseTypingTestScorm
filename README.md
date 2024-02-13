@@ -24,8 +24,7 @@ This SCORM package provides a typing test game where students can practice typin
    - Save the changes to the `imsmanifest.xml` file.
 
 4. **Local Testing:**
-   - To test the SCORM package locally, you can run the `index.html` file in your web browser.
-   - Alternatively, you can use Python to run a local web server:
+   - To test the SCORM package locally, you use Python to run a local web server:
      - **For Windows:**
        - Download and install Python from [python.org](https://www.python.org/downloads/).
        - Open Command Prompt and navigate to the folder containing the unzipped SCORM package.
@@ -34,7 +33,7 @@ This SCORM package provides a typing test game where students can practice typin
        - Mac systems typically come with Python pre-installed.
        - Open Terminal and navigate to the folder containing the unzipped SCORM package.
        - Run the command: `python3 -m http.server`.
-   - Once the server is running, open your web browser and navigate to `http://localhost:8000` to access the `index.html` file.
+   - Once the server is running, open your web browser and navigate to `http://localhost:8000` to access the game and test it.
 
 5. **Zip the Contents:**
    - Select all the files and folders within the package directory (excluding the directory itself).
