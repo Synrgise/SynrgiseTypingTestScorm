@@ -5,8 +5,15 @@
 </head>
 <body>
   <div class="container">
-    <!-- <div class="heading">Simple Speed Typing</div> -->
+    <div class="instructions">
+      <h2>
+        <div class="instruction_text" id="instructionText"></div>
+      </h2>
+      <img src="" alt="Instruction Image" class="instruction_image" id="instructionImage">
+    </div>
     <div class="header">
+      <!-- Instruction section -->
+    
       <div class="wpm">
         <div class="header_text">WPM</div>
         <div class="curr_wpm">100</div>
@@ -35,5 +42,36 @@
     <button class="restart_btn" onclick="resetValues()">Restart</button>
   </div>
   <script src="game.js"></script>
+  <script>
+    // Fetch data from data.json
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        // Update instruction text if it exists
+        const instructionText = document.getElementById('instructionText');
+        if (data.instruction_text) {
+          if(data.instruction_text != "" && data.instruction_text != 'none') {
+          instructionText.textContent = data.instruction_text;
+          } else {
+            instructionText.setAttribute("style","display:none")
+          }
+        }
+
+        // Update instruction image if it exists
+        const instructionImage = document.getElementById('instructionImage');
+        if (data.image_name) {
+          if(data.image_name != "" && data.image_name != 'none')
+            {
+              instructionImage.src = data.image_name;
+            } else {
+              instructionImage.setAttribute("style","display:none")
+            }
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  </script>
 </body>
 </html>

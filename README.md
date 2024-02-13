@@ -14,6 +14,8 @@ This SCORM package provides a typing test game where students can practice typin
    - Update the following parameters:
      - **Time Limit:** Set the time limit for the game in seconds.
      - **Quotes/Text-Strings:** Provide an array of quotes or text-strings that the student will be presented with during the game. Each quote should be limited to no more than 500 characters.
+     - **Instruction Text (Optional):** Provide instructions for the typing test game. Set to "none" if not needed.
+     - **Image Name (Optional):** Provide the filename of an image to display instructions visually. Ensure filename matches that in the folder and has no spaces Set to "none" if not needed.
    - Save the changes to the `data.json` file.
 
 3. **Update `imsmanifest.xml` File:**
@@ -44,4 +46,4 @@ This SCORM package provides a typing test game where students can practice typin
    - Once the contents are zipped, you can upload the zip file to any SCORM 1.2 compatible Learning Management System (LMS).
    - Follow the instructions provided by your LMS to upload and deploy the SCORM package.
 
-By following these instructions, you can customize the time limit, quotes, and title of the typing test game within the SCORM package and deploy it to your preferred SCORM-compatible LMS for student use.
+By following these instructions, you can customize the time limit, quotes, instructions, and image for the typing test game within the SCORM package and deploy it to your preferred SCORM-compatible LMS for student use.

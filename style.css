@@ -5,6 +5,9 @@ body {
   font-family: sans-serif;
 }
 
+.instruction_image {
+  max-height: 15vh;
+}
 .container {
   display: flex;
   flex-direction: column;
