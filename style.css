@@ -96,3 +96,11 @@ body {
   border: 0px;
   box-shadow: black 5px 8px 5px;
 }
+.end_btn {
+  display: none;
+  background-color: #77bc8b;
+  font-size: 1.5rem;
+  padding: 10px;
+  border: 0px;
+  box-shadow: black 5px 8px 5px;
+}

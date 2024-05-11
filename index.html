@@ -39,15 +39,27 @@
     <div class="quote">Click on the area below to start the game.</div>
     <textarea class="input_area" placeholder="start typing here..." oninput="processCurrentText()"
       onfocus="startGame()"></textarea>
-    <button class="restart_btn" onclick="resetValues()">Restart</button>
+    <table style="border: none;">
+      <tr>
+        <td>
+          <button class="restart_btn" onclick="resetValues()">Restart</button>
+        </td>
+        <td>
+          <button class="end_btn" onclick="scormTerminate()">Finish</button>
+        </td>
+      </tr>
+    </table>
+   
+    
   </div>
+  <script src="SCORM_API_wrapper_v1.1.6.js"></script>
   <script src="game.js"></script>
   <script>
     // Fetch data from data.json
     fetch('data.json')
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         // Update instruction text if it exists
         const instructionText = document.getElementById('instructionText');
         if (data.instruction_text) {

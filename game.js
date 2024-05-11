@@ -7,6 +7,7 @@ let wpm_text = document.querySelector(".curr_wpm");
 let quote_text = document.querySelector(".quote");
 let input_area = document.querySelector(".input_area");
 let restart_btn = document.querySelector(".restart_btn");
+let end_btn = document.querySelector(".end_btn");
 let cpm_group = document.querySelector(".cpm");
 let wpm_group = document.querySelector(".wpm");
 let error_group = document.querySelector(".errors");
@@ -35,6 +36,37 @@ let current_quote = "";
 let quoteNo = 0;
 let timer = null;
 
+// Initialize SCORM
+function scormInit() {
+  if (pipwerks.SCORM.init()) {
+      console.log("SCORM initialized");
+      // Optionally set the initial status to incomplete
+      pipwerks.SCORM.set("cmi.completion_status", "incomplete");
+      pipwerks.SCORM.set("cmi.core.lesson_status", "incomplete");
+  } else {
+      console.log("Failed to initialize SCORM");
+  }
+}
+
+// Set SCORM completion status
+function scormComplete() {
+  pipwerks.SCORM.set("cmi.core.entry", "resume");
+  pipwerks.SCORM.save(); // Ensure data is saved
+
+  pipwerks.SCORM.set("cmi.core.lesson_status", "completed");
+  pipwerks.SCORM.save(); // Ensure data is saved
+  console.log("SCORM completed");
+}
+
+// Terminate SCORM
+function scormTerminate() {
+  if (pipwerks.SCORM.quit()) {
+      console.log("SCORM terminated");
+  } else {
+      console.log("Failed to terminate SCORM");
+  }
+}
+
 // Initialize the game
 function initializeGame() {
   timeLeft = TIME_LIMIT;
@@ -48,32 +80,38 @@ function initializeGame() {
 
 
 function updateQuote() {
-  quote_text.innerHTML = ""; // Clear the existing content
+  // Check if all quotes are completed
+  if (quoteNo >= quotes_array.length) {
+      finishGame(); // End the game if all quotes are completed
+      return;  // Exit the function to avoid further execution
+  }
+  console.log("Updating quote: " + quoteNo);
+  console.log("quotes_array.length: " + quotes_array.length);
+  // Update the displayed quote
+  quote_text.innerHTML = "";  // Clear the existing content
   current_quote = quotes_array[quoteNo];
 
   // Iterate over each character in the quote
   for (let char of current_quote) {
-    // Create a new span element
-    const charSpan = document.createElement('span');
-    // Set the class of the span to control its behavior with CSS
-    charSpan.classList.add('character');
-    // Set the text content of the span to the character
-    charSpan.textContent = char;
-    // Append the span to the quote_text element
-    quote_text.appendChild(charSpan);
+      const charSpan = document.createElement('span');
+      charSpan.classList.add('character');
+      charSpan.textContent = char;
+      quote_text.appendChild(charSpan);
   }
 
-  // Roll over to the first quote if necessary
-  if (quoteNo < quotes_array.length - 1)
-    quoteNo++;
-  else
-    quoteNo = 0;
+  // Increment the quote index for next update, or reset if all quotes are typed
+  if (quoteNo < quotes_array.length) {
+      quoteNo++;
+  } else {
+      // Reset to the first quote to potentially repeat the loop (optional)
+      quoteNo = 0;
+  }
 }
 
 
 
-function processCurrentText() {
 
+function processCurrentText() {
   // get current input text and split it
   curr_input = input_area.value;
   curr_input_array = curr_input.split('');
@@ -85,48 +123,34 @@ function processCurrentText() {
 
   quoteSpanArray = quote_text.querySelectorAll('span');
   quoteSpanArray.forEach((char, index) => {
-    let typedChar = curr_input_array[index]
+      let typedChar = curr_input_array[index];
 
-    // characters not currently typed
-    if (typedChar == null) {
-      char.classList.remove('correct_char');
-      char.classList.remove('incorrect_char');
-
-      // correct characters
-    } else if (typedChar === char.innerText) {
-      char.classList.add('correct_char');
-      char.classList.remove('incorrect_char');
-
-      // incorrect characters
-    } else {
-      char.classList.add('incorrect_char');
-      char.classList.remove('correct_char');
-
-      // increment number of errors
-      errors++;
-    }
+      if (typedChar == null) {
+          char.classList.remove('correct_char');
+          char.classList.remove('incorrect_char');
+      } else if (typedChar === char.innerText) {
+          char.classList.add('correct_char');
+          char.classList.remove('incorrect_char');
+      } else {
+          char.classList.add('incorrect_char');
+          char.classList.remove('correct_char');
+          errors++;
+      }
   });
 
-  // display the number of errors
   error_text.textContent = total_errors + errors;
-
-  // update accuracy text
   let correctCharacters = (characterTyped - (total_errors + errors));
   let accuracyVal = ((correctCharacters / characterTyped) * 100);
   accuracy_text.textContent = Math.round(accuracyVal);
 
-  // if current text is completely typed
-  // irrespective of errors
+  // Check if the current quote is fully typed
   if (curr_input.length == current_quote.length) {
-    updateQuote();
-
-    // update total errors
-    total_errors += errors;
-
-    // clear the input area
-    input_area.value = "";
+      total_errors += errors;  // Update total errors
+      input_area.value = "";   // Clear the input area
+      updateQuote();           // Move to the next quote or finish the game
   }
 }
+
 
 function updateTimer() {
   if (timeLeft > 0) {
@@ -157,29 +181,31 @@ function finishGame() {
 
   // display restart button
   restart_btn.style.display = "block";
+  end_btn.style.display = "block";
+  calculateCPMandWPM();
+  scormComplete(); // Set completion status when game is finished
+}
 
-  // calculate cpm and wpm
-  cpm = Math.round(((characterTyped / timeElapsed) * 60));
-  wpm = Math.round((((characterTyped / 5) / timeElapsed) * 60));
-
-  // update cpm and wpm text
+// Calculate CPM and WPM, called from finishGame()
+function calculateCPMandWPM() {
+  let cpm = Math.round(((characterTyped / timeElapsed) * 60));
+  let wpm = Math.round((((characterTyped / 5) / timeElapsed) * 60));
   cpm_text.textContent = cpm;
   wpm_text.textContent = wpm;
-
-  // display the cpm and wpm
   cpm_group.style.display = "block";
   wpm_group.style.display = "block";
 }
 
 
 function startGame() {
-
+  
   resetValues();
   updateQuote();
 
   // clear old and start a new timer
   clearInterval(timer);
   timer = setInterval(updateTimer, 1000);
+  scormInit();
 }
 
 function resetValues() {
